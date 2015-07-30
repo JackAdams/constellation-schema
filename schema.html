@@ -1,0 +1,17 @@
+<template name="Constellation_schema_menu">
+  <div class="Constellation_schema_clear Constellation_schema_button">Clear</div>
+  <div class="Constellation_schema_print Constellation_schema_button">Copy</div>
+  <div class="Constellation_schema_generate Constellation_schema_button">Generate</div>
+  <div style="text-indent: 8px;">
+    <select class="Constellation_schema_collections">
+      {{#each collections}}
+        <option value="{{this}}" selected={{selected}}>{{this}}</option>
+      {{/each}}
+    </select>
+  </div>
+</template>
+
+<template name="Constellation_schema_main">
+  {{> editableJSON observe=schema store="constellation_schema"}}
+  {{> sAlert}}
+</template>

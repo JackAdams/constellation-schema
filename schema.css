@@ -1,0 +1,33 @@
+#Constellation .Constellation_schema_collections { 
+  color: rgba(0,0,0,0.8);
+  opacity: 0.8;
+  height: 16px;
+  font-size: smaller;
+  max-width: 90px;
+  padding: 0;
+}
+
+.Constellation_schema_button {
+  float: right;
+  border-left: 1px solid rgba(0,0,0,.4);
+  padding: 0 6px;
+}
+
+.Constellation_schema_button:hover {
+  color: #2CA6E2;
+  transition: .2s;
+  cursor: pointer;
+}
+
+.Constellation-schema-output {
+  width: 600px;
+  height: 400px;
+}
+
+#Constellation .s-alert-box {
+  max-width: 90%;	
+}
+
+#Constellation .s-alert-box pre {
+  white-space: pre-wrap;
+}
