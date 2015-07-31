@@ -32,19 +32,14 @@ Meteor.startup(function () {
   if (!localStorage.Constellation_schema_collection) {
 	localStorage.Constellation_schema_collection = API.getCollections()[0] || null;  
   }
+  // We have no way of knowing that sAlert has been rendered already
+  // This will cause double alerts for apps with sAlert already rendered
+  Blaze.render(Template['sAlert'], document.body);
 });
 
-Template.Constellation_schema_main.helpers({
-  schema: function () {
-	SchemaDep.depend();
-	var collection = localStorage.Constellation_schema_collection;
-    return SchemaDict.get(collection) || {};
-  }
-});
-
-Template.Constellation_schema_main.events({
+Template.sAlertContent.events({
   'click .Constellation_schema_restore_field' : function (evt, tmpl) {
-	var elem = tmpl.$(evt.target);
+	var elem = $(evt.target);
 	var fieldName = elem.attr('data-fieldName');
 	var fieldData = elem.attr('data-fieldData');
 	if (fieldName && fieldData) {
@@ -54,10 +49,19 @@ Template.Constellation_schema_main.events({
 	  SchemaDict.set(collection, schema);
       saveToLocalStorage(collection, newSchema);
       SchemaDep.changed();
+	  tmpl.$('.s-alert-close').trigger('click');
 	}
 	else {
 	  alert('Unable to restore field. Sorry!');	
 	}
+  }
+});
+
+Template.Constellation_schema_main.helpers({
+  schema: function () {
+	SchemaDep.depend();
+	var collection = localStorage.Constellation_schema_collection;
+    return SchemaDict.get(collection) || {};
   }
 });
 
@@ -207,7 +211,9 @@ var modifySchema = function (schemaData, value, field, doc, index) {
 	  }
 	  else {
 	    // Retain the first type, but alert the user to the problem of mismatched types
-	    sAlert.error('Type mismatch found in db.<br /><br /><pre>' + JSON.stringify(doc) + '</pre><br />has a field "' + field + '" with type <strong>' + type + '</strong><br /><br />We were expecting: <strong>' + ((existingDefinition.type === '[]') ? 'an array (element type unknown)' : existingDefinition.type) + '</strong>');
+		var regex = new RegExp('"' + field + '":', 'g');
+		var highlightedDoc = JSON.stringify(doc).replace(regex, '<strong>"' + field + '":</strong>');
+	    sAlert.error('Type mismatch found in db.<br /><br /><pre>' + highlightedDoc + '</pre><br />has a field "' + field + '" with type <strong>' + type + '</strong><br /><br />We were expecting type to be: <strong>' + ((existingDefinition.type === '[]') ? 'an array (element type unknown)' : existingDefinition.type) + '</strong>' + ((_.isUndefined(existingDefinition.type)) ? ' Check the <strong>' + field + '</strong> field in your schema - the "type" key is missing!' : ''));
 	  }
 	}
 	if (type === 'Object') {

@@ -24,10 +24,17 @@
   height: 400px;
 }
 
-#Constellation .s-alert-box {
-  max-width: 90%;	
+/* This is going to mess with apps with sAlert already in them */
+
+.s-alert-box {
+  max-width: 90%;
+  z-index: 2147483647 !important;
 }
 
-#Constellation .s-alert-box pre {
+.s-alert-box pre {
   white-space: pre-wrap;
+}
+
+#Constellation.Constellation {
+ z-index: 2147483646;	
 }
