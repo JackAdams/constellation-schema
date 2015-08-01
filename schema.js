@@ -91,7 +91,7 @@ Template.Constellation_schema_menu.events({
 	}, []);
 	var fields = _.keys(SchemaDict.get(collection)).concat(customKeys); // concat-ing custom key values - that standard ones are concat-ed below
 	var schemaText = removeQuotesFromKeys(turnStringsToPrimitives(JSON.stringify(SchemaDict.get(collection) || {}, null, 2)), fields);
-	sAlert.info('<textarea class="Constellation-schema-output">var ' + collection + 'Schema = new SimpleSchema(' + schemaText + ');</textarea>');
+	sAlert.info('<textarea class="Constellation-schema-output">var ' + collection + 'Schema = new SimpleSchema(' + schemaText + ');\n\n' + firstToUpper(collection) + '.attachSchema(' + collection + 'Schema);</textarea>');
 	Tracker.flush();
 	$('.Constellation-schema-output').select();
   },
@@ -175,8 +175,8 @@ var generateSchema = function (collectionName) {
   // Look for empty array types
   _.each(schemaData.schema, function (value, field) {
 	if (value.type === '[]') {
-	  schemaData.schema[field].type === '[String]';
-	  sAlert.warning('Guessed that the array elements are strings for field: <strong>' + field + '</strong>');	
+	  schemaData.schema[field].type = '[String]';
+	  sAlert.warning('Guessed that the array elements have type "String" for field: <strong>' + field + '</strong>');	
 	}
   });
   return schemaData.schema;

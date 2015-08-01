@@ -1,6 +1,6 @@
 Package.describe({
   name: 'constellation:schema',
-  version: '0.3.2',
+  version: '0.3.3',
   summary: 'Schema generator plugin for Constellation',
   git: 'https://github.com/JackAdams/constellation-schema.git',
   documentation: 'README.md',
