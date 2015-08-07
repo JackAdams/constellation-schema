@@ -45,9 +45,9 @@ Template.sAlertContent.events({
 	if (fieldName && fieldData) {
 	  var collection = localStorage.Constellation_schema_collection;
 	  var schema = SchemaDict.get(collection);
-	  schema[fieldName] = _.extend(JSON.parse(fieldData.replace(/'/g,'"')), {restored: true});
+	  schema[fieldName] = _.extend(JSON.parse(fieldData.replace(/'/g,'"')), {_restored: true});
 	  SchemaDict.set(collection, schema);
-      saveToLocalStorage(collection, newSchema);
+      saveToLocalStorage(collection, schema);
       SchemaDep.changed();
 	  tmpl.$('.s-alert-close').trigger('click');
 	}
@@ -89,8 +89,13 @@ Template.Constellation_schema_menu.events({
 	var customKeys = _.reduce(SchemaDict.get(collection), function (memo, scheme) {
 	  return memo.concat(_.difference(_.keys(scheme), keysThisGeneratorDoesForYou));
 	}, []);
-	var fields = _.keys(SchemaDict.get(collection)).concat(customKeys); // concat-ing custom key values - that standard ones are concat-ed below
-	var schemaText = removeQuotesFromKeys(turnStringsToPrimitives(JSON.stringify(SchemaDict.get(collection) || {}, null, 2)), fields);
+	var fields = _.keys(SchemaDict.get(collection)).concat(customKeys); // concat-ing custom key values - the standard ones are concat-ed below
+	var filteredSchema = {};
+	_.each(SchemaDict.get(collection), function (val, key) {
+	  delete val._restored;
+	  filteredSchema[key] = val;
+	});
+	var schemaText = removeQuotesFromKeys(turnStringsToPrimitives(JSON.stringify(filteredSchema || {}, null, 2)), fields);
 	sAlert.info('<textarea class="Constellation-schema-output">var ' + collection + 'Schema = new SimpleSchema(' + schemaText + ');\n\n' + firstToUpper(collection) + '.attachSchema(' + collection + 'Schema);</textarea>');
 	Tracker.flush();
 	$('.Constellation-schema-output').select();
@@ -166,7 +171,7 @@ var generateSchema = function (collectionName) {
 	if (!_.difference(_.keys(existingRule), keysThisGeneratorDoesForYou).length) {
 	  // No custom keys from the user -- remove with impunity
 	  // But also throw out an alert
-	  if (!existingRule.restored) {
+	  if (!existingRule._restored) {
 	    sAlert.warning('Field no longer found in database: <strong>' + fieldName + '</strong><br /><br /><pre>' + JSON.stringify(existingRule, null, 2) + '</pre><br />Removed from schema.<br /><br /><button class="Constellation_schema_restore_field" data-fieldName="' + fieldName + '" data-fieldData="' + JSON.stringify(existingRule).replace(/"/g,"'") + '">Restore field</button>');
 	    delete schemaData.schema[fieldName];
 	  }

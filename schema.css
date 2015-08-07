@@ -25,6 +25,10 @@
   color: #000;
 }
 
+.Constellation_schema_restore_field {
+  color: #000;	
+}
+
 /* This is going to mess with apps with sAlert already in them */
 
 .s-alert-box {
