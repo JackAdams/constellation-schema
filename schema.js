@@ -115,6 +115,8 @@ Template.Constellation_schema_menu.events({
   }
 });
 
+EditableJSON = Package['babrahams:editable-json'].EditableJSON;
+
 EditableJSON.afterUpdate(function (store, action, JSONbefore, documentsUpdated) {
   var collection = localStorage.Constellation_schema_collection;
   SchemaDict.set(collection,this);
