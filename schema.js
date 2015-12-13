@@ -6,7 +6,8 @@ var Constellation = Package["constellation:console"].Constellation;
 API.addTab({
   name: 'Schema',
   menuContentTemplate: 'Constellation_schema_menu',
-  mainContentTemplate: 'Constellation_schema_main'
+  mainContentTemplate: 'Constellation_schema_main',
+  guideContentTemplate: 'Constellation_schema_guide'
 });
 
 SchemaDict = new ReactiveDict('constellation-schema');

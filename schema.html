@@ -14,3 +14,17 @@
 <template name="Constellation_schema_main">
   {{> editableJSON observe=schema store="constellation_schema"}}
 </template>
+
+<template name="Constellation_schema_guide">
+
+  <ul>
+    <li>This plugin builds a <strong>aldeed:simple-schema</strong> for any collection by scanning existing documents from the collection.</li>
+    <li>It can be used to <a href="https://www.youtube.com/watch?v=ZDdtfiyXfTA" target="_blank">retrofit an app</a> or to build up a schema by <a href="https://www.youtube.com/watch?v=5w-MnjjIgks" target="_blank">creating documents of the right form</a>.</li>
+    <li>Simply choose the collection you want a schema for and click <strong>Generate</strong>. The generated schema will be based on the fields and values of the <u>currently published documents</u>.</li>
+    <li>Once the schema is generated, click <strong>Copy</strong> to get some code that is ready-to-paste into your app.</li>
+    <li>The schema is persisted via localStorage, so it survives hard app refreshes, but the <strong>Clear</strong> button will remove the selected schema completely.</li>
+    <li>You can edit the schema the way you would edit a document in a collection and it is persisted in localStorage.</li>
+    <li>This package is designed so that you can modify documents (add/remove fields, change types, etc.), and press the <strong>Generate</strong> button again and the schema will be updated accordingly without any information being lost.</li>
+  </ul>
+
+</template>
