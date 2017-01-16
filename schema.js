@@ -372,14 +372,14 @@ var drillDown = function (obj, key) {
     // Check if its an array
     if (pieces[1] === '$') {
       // Always go for the first element
-      var arrElem = obj[pieces[0]] && obj[pieces[0]][0] || {};
+      var arrElem = obj && obj[pieces[0]] && obj[pieces[0]][0] || {};
       pieces.shift();
       pieces.shift();
-      return drillDown(arrElem,pieces.join('.'));
+      return drillDown(arrElem, pieces.join('.'));
     }
     var newObj = obj ? obj[pieces[0]] : {};
     pieces.shift();
-    return drillDown(newObj,pieces.join('.'));
+    return drillDown(newObj, pieces.join('.'));
   }
   else {
     if (obj) {
