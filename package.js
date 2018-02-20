@@ -1,6 +1,6 @@
 Package.describe({
   name: 'constellation:schema',
-  version: '0.4.5',
+  version: '0.4.6',
   summary: 'Schema generator plugin for Constellation',
   git: 'https://github.com/JackAdams/constellation-schema.git',
   documentation: 'README.md',
@@ -11,9 +11,9 @@ Package.onUse(function(api) {
   api.versionsFrom('1.0');
 
   api.use(['templating','blaze','underscore','ejson','reactive-var','reactive-dict','tracker'], 'client');
-  api.use('constellation:console@1.4.4', 'client');
-  api.use('babrahams:editable-json@0.6.4', 'client');
-  api.use('juliancwirko:s-alert@3.1.4', 'client');
+  api.use('constellation:console@1.4.6', 'client');
+  api.use('babrahams:editable-json@0.6.5', 'client');
+  api.use('juliancwirko:s-alert@3.2.0', 'client');
 
   api.addFiles('schema.css','client');
   api.addFiles('schema.html','client');
